@@ -1,0 +1,21 @@
+finten=function(Graduasi)
+{
+  dm=as.matrix(Graduasi)
+  n=nrow(Graduasi)
+  mQ=mA=mC=mD=mP=matrix(0,n*3,3)
+  for(i in 0:(n-1))
+  {
+    ms=matrix(dm[i+1,2:10],3,3,byrow=T)
+    mQ[c(3*i+1,3*i+2,3*i+3),]=ms
+    mA[c(3*i+1,3*i+2,3*i+3),]=eigen(mQ[c(3*i+1,3*i+2,3*i+3),])$vector
+    mC[c(3*i+1,3*i+2,3*i+3),]=solve(mA[c(3*i+1,3*i+2,3*i+3),])
+    mD[c(3*i+1,3*i+2,3*i+3),]=diag(exp(eigen(mQ[c(3*i+1,3*i+2,3*i+3),])$value))
+    mP[c(3*i+1,3*i+2,3*i+3),]=mA[c(3*i+1,3*i+2,3*i+3),]%*%mD[c(3*i+1,3*i+2,3*i+3),]%*%mC[c(3*i+1,3*i+2,3*i+3),]
+    cat("P(",i,")=\n")
+    print(mP[c(3*i+1,3*i+2,3*i+3),])
+  }
+  mP
+}
+pm=finten(dm)
+pf=finten(ProbtransF)
+Graduasi
